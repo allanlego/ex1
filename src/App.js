@@ -6,10 +6,24 @@ Ext.define('CustomApp', {
     },
     fireFromTheStore:function(store,records){
         var blockedRecords = _.filter(records,function(record){
-            var blocked = record.get('Blocked')
-            console.log(blocked,record);
+            var blocked = record.get('updatable')
             return blocked;
         });
+        
+        var record = records[0];
+        
+        record.set("Blocked", true);
+        
+        console.log("Record " + record.get("FormattedID") + " updatable: " + record.get("updatable"));
+        
+        record.save({
+            callback: function(result, operation) {
+                if(operation.wasSuccessful()) {
+                    console.log("Saved! ");
+                }
+            }
+        });
+        
         Ext.Msg.alert('Status', 'Store Loaded with '+records.length+' records and '+blockedRecords.length + ' blocked records.');
     },
 
@@ -20,13 +34,9 @@ Ext.define('CustomApp', {
             listeners: {
                load: function(store, data, success) {
                     //process data
-                    console.log(data);
                 }
             },
-            fetch: ['Name', 'ScheduleState', 'Blocked', 'Rank'],
-            filters: [{
-                property: 'Blocked',
-                value: true}], 
+            fetch: true,
             sorters: [{
                 property: 'Rank',
                 direction: 'ASC' 
