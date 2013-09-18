@@ -10,7 +10,6 @@ Ext.define('CustomApp', {
             console.log(blocked,record);
             return blocked;
         });
-        console.log(this);
         Ext.Msg.alert('Status', 'Store Loaded with '+records.length+' records and '+blockedRecords.length + ' blocked records.');
     },
 
@@ -24,17 +23,15 @@ Ext.define('CustomApp', {
                     console.log(data);
                 }
             },
-            fetch: ['Name', 'ScheduleState', 'Blocked'],
+            fetch: ['Name', 'ScheduleState', 'Blocked', 'Rank'],
             filters: [{
                 property: 'Blocked',
-                value: true}]
+                value: true}], 
+            sorters: [{
+                property: 'Rank',
+                direction: 'ASC' 
+            }]
         });
-        var scope = {
-            taco: true
-        };
-        var scope2 = {
-            taco:"Panda"
-        }
         store.on("load", this.fireFromTheStore);
 
     }
