@@ -6,7 +6,7 @@ Ext.define('CustomApp', {
     },
     fireFromTheStore:function(store,records){
         var blockedRecords = _.filter(records,function(record){
-            var blocked = record.get('updatable')
+            var blocked = record.get('updatable');
             return blocked;
         });
         
@@ -15,7 +15,7 @@ Ext.define('CustomApp', {
         record.set("Blocked", true);
         
         console.log("Record " + record.get("FormattedID") + " updatable: " + record.get("updatable"));
-        
+    
         record.save({
             callback: function(result, operation) {
                 if(operation.wasSuccessful()) {
